@@ -41,7 +41,7 @@ const AddAnimalModal = ({ isVisible, onClose }: AddAnimalModalProps) => {
     formData.append('animalCategory', animalCategory);
 
     try {
-      const response = await fetch('/api/upload-image', {
+      const response = await fetch('', {
         method: 'POST',
         body: formData,
       });
