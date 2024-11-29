@@ -1,3 +1,5 @@
+"use client";
+import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 
 interface AddAnimalModalProps {
@@ -41,15 +43,20 @@ const AddAnimalModal = ({ isVisible, onClose }: AddAnimalModalProps) => {
     formData.append('animalCategory', animalCategory);
 
     try {
-      const response = await fetch('', {
-        method: 'POST',
-        body: formData,
+      const response = await axios.post('.../api/upload-image', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
-      const data = await response.json();
+      const data = await response.data;
       console.log(data);
     } catch (error) {
-      console.error('Error uploading image:', error);
+      if (axios.isAxiosError(error)) {
+        console.error('Error uploading image:', error.message);
+      } else {
+        console.error('Error uploading image:', error);
+      }
     }
   };
 
@@ -125,8 +132,8 @@ const AddAnimalModal = ({ isVisible, onClose }: AddAnimalModalProps) => {
             </select>
           </div>
           <button
-            type="submit"
             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-150 ease-in-out w-full"
+            onClick={() => { }}
           >
             Create Animal
           </button>
