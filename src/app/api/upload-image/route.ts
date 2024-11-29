@@ -1,19 +1,14 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export const post = async (request: NextRequest) => {
   const formData = await request.formData();
-  const file = formData.get('image') as File;
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const base64 = buffer.toString('base64');
-  const data = {
-    image: `data:${file.type};base64,${base64}`,
+  const imageFile = formData.get('image') as File;
+  const imageBuffer = Buffer.from(await imageFile.arrayBuffer());
+  const imageBase64 = imageBuffer.toString('base64');
+  const responseData = {
+    image: `data:${imageFile.type};base64,${imageBase64}`,
   };
 
-  return {
-    status: 201,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  };
+  return NextResponse.json(responseData, { status: 201 });
 };
+
